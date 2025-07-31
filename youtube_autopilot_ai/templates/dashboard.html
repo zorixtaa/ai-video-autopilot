@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AI Video Autopilot{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Dashboard</h2>
+  <div class="mb-3">
+    <h4>Current Topics</h4>
+    {% if topics %}
+      <ul class="list-group">
+        {% for topic in topics %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ topic }}
+            <form method="post" style="margin:0;">
+              <input type="hidden" name="remove_index" value="{{ loop.index0 }}">
+              <button type="submit" name="action" value="remove_topic" class="btn btn-sm btn-outline-danger">Remove</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No topics configured.</p>
+    {% endif %}
+  </div>
+  <div class="mb-3">
+    <h4>Add a New Topic</h4>
+    <form method="post" class="d-flex">
+      <input type="text" name="new_topic" class="form-control me-2" placeholder="Enter a new topic" required>
+      <button type="submit" name="action" value="add_topic" class="btn btn-success">Add</button>
+    </form>
+  </div>
+  <div class="mb-3">
+    <h4>Run Autopilot</h4>
+    <p>This will fetch the latest stories, generate a script, create an audio file, download a background image, and assemble a new video.  The video will be saved in the project directory.</p>
+    <form method="post">
+      <button type="submit" name="action" value="run_autopilot" class="btn btn-primary">Run Autopilot</button>
+    </form>
+  </div>
+{% endblock %}
